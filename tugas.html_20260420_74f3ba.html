@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>LautLink - Sistem Pelayanan Pelayaran & Pemesanan Tiket Kapal</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #eef2f7 0%, #d9e1ec 100%);
+      color: #1a2c3e;
+      scroll-behavior: smooth;
+    }
+
+    /* custom container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* header & navbar */
+    header {
+      background: #0b2b3b;
+      color: white;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .navbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .logo span {
+      color: #2bc0b0;
+      font-weight: 600;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: #f0f6fa;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+    .nav-links a:hover {
+      color: #2bc0b0;
+      transform: translateY(-2px);
+    }
+
+    /* hero section */
+    .hero {
+      background: linear-gradient(105deg, #0f3b4f 0%, #1b5a6e 100%);
+      border-radius: 0 0 40px 40px;
+      padding: 48px 0 56px;
+      margin-bottom: 48px;
+      color: white;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+    }
+    .hero-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+    }
+    .hero-text h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .hero-text p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 500px;
+    }
+    .hero-badge {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      border-radius: 60px;
+      padding: 8px 20px;
+      display: inline-block;
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+
+    /* card grid */
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin: 40px 0 24px 0;
+      border-left: 6px solid #2bc0b0;
+      padding-left: 18px;
+      color: #0a2e3f;
+    }
+    .grid-4, .schedule-grid, .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+    .card {
+      background: white;
+      border-radius: 28px;
+      padding: 22px 20px;
+      box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+      transition: all 0.25s ease;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 32px -12px rgba(0, 0, 0, 0.15);
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      color: #2bc0b0;
+      margin-bottom: 16px;
+    }
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .card p {
+      color: #3a5468;
+      line-height: 1.4;
+      font-size: 0.95rem;
+    }
+
+    /* jadwal tabel */
+    .table-wrapper {
+      overflow-x: auto;
+      background: white;
+      border-radius: 28px;
+      padding: 4px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+      margin-bottom: 48px;
+    }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .schedule-table th {
+      background: #0b2b3b;
+      color: white;
+      padding: 16px 12px;
+      font-weight: 600;
+    }
+    .schedule-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1f3e4b;
+    }
+    .schedule-table tr:hover {
+      background: #f1f9fe;
+    }
+    .status-tersedia {
+      background: #dff9e6;
+      color: #0f6e3f;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 30px;
+      display: inline-block;
+      font-size: 0.75rem;
+    }
+    .btn-book {
+      background: #2bc0b0;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.8rem;
+    }
+    .btn-book:hover {
+      background: #1f9e8f;
+      transform: scale(0.96);
+    }
+
+    /* pemesanan tiket form */
+    .booking-section {
+      background: linear-gradient(120deg, #ffffff, #f9fdfe);
+      border-radius: 36px;
+      padding: 32px 28px;
+      margin: 40px 0 48px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+      border: 1px solid #cde3ec;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin: 24px 0;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .input-group label {
+      font-weight: 600;
+      color: #1c4e63;
+    }
+    .input-group input, .input-group select {
+      padding: 12px 16px;
+      border-radius: 60px;
+      border: 1px solid #cbdde6;
+      font-size: 0.9rem;
+      background: white;
+      outline: none;
+      transition: 0.2s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: #2bc0b0;
+      box-shadow: 0 0 0 3px rgba(43,192,176,0.2);
+    }
+    .book-btn-primary {
+      background: #0b2b3b;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 12px;
+      width: 100%;
+    }
+    .book-btn-primary:hover {
+      background: #2bc0b0;
+      transform: translateY(-2px);
+    }
+    .alert-message {
+      margin-top: 24px;
+      background: #e4f5f2;
+      border-radius: 40px;
+      padding: 14px 20px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    /* layanan pelabuhan */
+    .service-grid .card {
+      text-align: center;
+    }
+    .footer {
+      background: #0b2b3b;
+      color: #cddfe8;
+      padding: 32px 0;
+      margin-top: 50px;
+      text-align: center;
+      border-radius: 40px 40px 0 0;
+    }
+
+    @media (max-width: 760px) {
+      .hero-text h2 { font-size: 1.8rem; }
+      .section-title { font-size: 1.6rem; }
+      .navbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container navbar">
+    <div class="logo">
+      <h1>Laut<span>Link</span></h1>
+      <p style="font-size: 0.75rem; letter-spacing: 0.5px;">Sistem Pelayanan Pelayaran</p>
+    </div>
+    <div class="nav-links">
+      <a href="#jadwal">Jadwal Kapal</a>
+      <a href="#jenis">Jenis Kapal</a>
+      <a href="#pemesanan">Pesan Tiket</a>
+      <a href="#layanan">Layanan Pelabuhan</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-text">
+      <h2>Perjalanan Laut <br>Tanpa Batas</h2>
+      <p>Tersedia pemesanan tiket kapal cepat, kapal feri, dan kapal penumpang. Jadwal realtime, layanan pelabuhan modern, dan keberangkatan terintegrasi.</p>
+      <div class="hero-badge"><i class="fas fa-ship"></i> 12+ Rute | 6 Pelabuhan Utama</div>
+    </div>
+    <div style="font-size: 4rem;"><i class="fas fa-anchor"></i> ⚓ <i class="fas fa-water"></i></div>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Jenis Kapal Section -->
+  <div id="jenis">
+    <h2 class="section-title"><i class="fas fa-ship" style="margin-right: 12px;"></i> Jenis Kapal & Fasilitas</h2>
+    <div class="grid-4">
+      <div class="card"><div class="card-icon"><i class="fas fa-rocket"></i></div><h3>Kapal Cepat</h3><p>Kecepatan tinggi, kursi eksekutif, AC, TV. Waktu tempuh 30% lebih singkat.</p><small>⏱️ 2-3 jam antar pulau</small></div>
+      <div class="card"><div class="card-icon"><i class="fas fa-ferry"></i></div><h3>Kapal Feri</h3><p>Kendaraan & penumpang, kelas ekonomi & bisnis, kafetaria, ruang keluarga.</p><small>🚗 Muatan kendaraan</small></div>
+      <div class="card"><div class="card-icon"><i class="fas fa-bed"></i></div><h3>Kapal Malam</h3><p>Kabin tidur, kamar mandi dalam, restoran, pemandangan laut. Nyaman untuk perjalanan malam.</p><small>🌙 Keberangkatan 20.00 - 22.00</small></div>
+      <div class="card"><div class="card-icon"><i class="fas fa-crown"></i></div><h3>Kapal Premium VIP</h3><p>Layanan butler, lounge eksklusif, prioritas boarding, makanan prasmanan.</p><small>⭐ Bintang 5</small></div>
+    </div>
+  </div>
+
+  <!-- Jadwal Kapal + Jam Keberangkatan -->
+  <div id="jadwal">
+    <h2 class="section-title"><i class="far fa-calendar-alt"></i> Jadwal Kapal & Jam Keberangkatan</h2>
+    <div class="table-wrapper">
+      <table class="schedule-table" id="scheduleTable">
+        <thead>
+            <tr><th>Nama Kapal</th><th>Jenis Kapal</th><th>Rute</th><th>Jam Keberangkatan</th><th>Estimasi Tiba</th><th>Ketersediaan</th><th>Aksi</th></tr>
+        </thead>
+        <tbody id="scheduleBody">
+          <!-- data dari javascript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pemesanan Tiket Kapal -->
+  <div id="pemesanan" class="booking-section">
+    <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 8px;"><i class="fas fa-ticket-alt"></i> Pemesanan Tiket Kapal</h2>
+    <p>Pilih jadwal favorit Anda dan isi data diri untuk pemesanan online. Tiket langsung dikirim ke email.</p>
+    <div class="form-grid">
+      <div class="input-group"><label>Nama Lengkap</label><input type="text" id="passengerName" placeholder="John Doe"></div>
+      <div class="input-group"><label>Email / No. HP</label><input type="text" id="contact" placeholder="email@domain.com / 0812xxxx"></div>
+      <div class="input-group"><label>Pilih Kapal & Jadwal</label><select id="tripSelect"></select></div>
+      <div class="input-group"><label>Jumlah Tiket</label><input type="number" id="ticketQty" min="1" value="1"></div>
+    </div>
+    <button class="book-btn-primary" id="bookTicketBtn"><i class="fas fa-check-circle"></i> Pesan Tiket Sekarang</button>
+    <div id="bookingMessage" class="alert-message" style="display: none;"></div>
+  </div>
+
+  <!-- Layanan Pelabuhan -->
+  <div id="layanan">
+    <h2 class="section-title"><i class="fas fa-umbrella-beach"></i> Layanan Pelabuhan & Fasilitas</h2>
+    <div class="service-grid">
+      <div class="card"><i class="fas fa-coffee card-icon"></i><h3>Lounge & Kafe</h3><p>Ruang tunggu ber-AC, kafe, area bebas rokok, toilet premium.</p></div>
+      <div class="card"><i class="fas fa-baby-carriage card-icon"></i><h3>Ruang Laktasi & Keluarga</h3><p>Fasilitas ibu & anak, taman bermain kecil.</p></div>
+      <div class="card"><i class="fas fa-shopping-bag card-icon"></i><h3>Duty Free Shop</h3><p>Oleh-oleh khas, makanan ringan, dan perlengkapan perjalanan.</p></div>
+      <div class="card"><i class="fas fa-wheelchair card-icon"></i><h3>Aksesibilitas Difabel</h3><p>Ramp, lift khusus, dan prioritas boarding.</p></div>
+      <div class="card"><i class="fas fa-shield-alt card-icon"></i><h3>Keamanan 24 Jam</h3><p>Petugas keamanan, X-ray bagasi, dan pos polisi pelabuhan.</p></div>
+      <div class="card"><i class="fas fa-bus card-icon"></i><h3>Transportasi Terintegrasi</h3><p>Shuttle bus, parkir luas, dan akses taksi online.</p></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p><i class="fas fa-ship"></i> LautLink – Sistem Pelayanan Pelayaran Terpercaya | Jadwal Aktual & Pemesanan Tiket Kapal</p>
+    <p style="margin-top: 12px;">&copy; 2025 PT Pelayaran Nusantara Sejahtera | Dukungan 24 jam: 1500-789</p>
+  </div>
+</footer>
+
+<script>
+  // Data Kapal & Jadwal (termasuk jenis kapal, jam keberangkatan)
+  const schedules = [
+    { id: 1, name: "KMP Bahari Express", type: "Kapal Cepat", route: "Merak - Bakauheni", departure: "07:00", arrival: "09:30", available: true, price: "Rp 150.000" },
+    { id: 2, name: "KM Nusantara 88", type: "Kapal Feri", route: "Surabaya - Makassar", departure: "09:30", arrival: "17:45", available: true, price: "Rp 275.000" },
+    { id: 3, name: "MV Samudera Indah", type: "Kapal Malam", route: "Jakarta - Pontianak", departure: "20:00", arrival: "07:00", available: true, price: "Rp 420.000" },
+    { id: 4, name: "Sea Queen VIP", type: "Kapal Premium VIP", route: "Bali - Lombok", departure: "13:15", arrival: "15:45", available: true, price: "Rp 550.000" },
+    { id: 5, name: "Cepat Nusantara", type: "Kapal Cepat", route: "Batam - Tanjung Pinang", departure: "08:30", arrival: "10:15", available: false, price: "Rp 180.000" }, // tidak tersedia contoh
+    { id: 6, name: "Feri Makmur Jaya", type: "Kapal Feri", route: "Padang - Mentawai", departure: "06:45", arrival: "11:30", available: true, price: "Rp 210.000" },
+    { id: 7, name: "Laut Teduh", type: "Kapal Malam", route: "Semarang - Kumai", departure: "21:15", arrival: "07:20", available: true, price: "Rp 390.000" }
+  ];
+
+  function renderSchedule() {
+    const tbody = document.getElementById('scheduleBody');
+    if(!tbody) return;
+    tbody.innerHTML = '';
+    schedules.forEach(ship => {
+      const row = tbody.insertRow();
+      row.insertCell(0).innerText = ship.name;
+      row.insertCell(1).innerText = ship.type;
+      row.insertCell(2).innerText = ship.route;
+      row.insertCell(3).innerHTML = `<strong>${ship.departure}</strong> WIB`;
+      row.insertCell(4).innerText = ship.arrival;
+      const statusCell = row.insertCell(5);
+      if(ship.available) {
+        statusCell.innerHTML = '<span class="status-tersedia"><i class="fas fa-check-circle"></i> Tersedia</span>';
+      } else {
+        statusCell.innerHTML = '<span style="background:#ffe0b5; color:#b45f06; padding:4px 12px; border-radius:30px;">Habis / Penuh</span>';
+      }
+      const actionCell = row.insertCell(6);
+      const bookBtn = document.createElement('button');
+      bookBtn.innerText = 'Pesan Tiket';
+      bookBtn.className = 'btn-book';
+      bookBtn.disabled = !ship.available;
+      if(!ship.available) bookBtn.style.opacity = '0.5';
+      bookBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if(ship.available) {
+          // Isi dropdown pemesanan dan scroll ke form
+          populateTripSelectWithShip(ship);
+          document.getElementById('pemesanan').scrollIntoView({ behavior: 'smooth' });
+        } else {
+          showTempAlert('Maaf, tiket untuk jadwal ini sudah habis.', '#ffded5');
+        }
+      });
+      actionCell.appendChild(bookBtn);
+    });
+  }
+
+  // untuk dropdown pemesanan
+  function populateTripSelect() {
+    const select = document.getElementById('tripSelect');
+    if(!select) return;
+    select.innerHTML = '';
+    schedules.filter(s => s.available).forEach(ship => {
+      const option = document.createElement('option');
+      option.value = ship.id;
+      option.textContent = `${ship.name} (${ship.type}) - ${ship.route} | Berangkat: ${ship.departure} | ${ship.price}`;
+      select.appendChild(option);
+    });
+    if(select.options.length === 0) {
+      const opt = document.createElement('option');
+      opt.textContent = 'Tidak ada jadwal tersedia sementara';
+      select.appendChild(opt);
+    }
+  }
+
+  function populateTripSelectWithShip(ship) {
+    const select = document.getElementById('tripSelect');
+    if(!select) return;
+    // cari option dengan value ship.id
+    for(let i = 0; i < select.options.length; i++) {
+      if(select.options[i].value == ship.id) {
+        select.selectedIndex = i;
+        break;
+      }
+    }
+  }
+
+  // show temporary message booking
+  function showTempAlert(msg, bgColor = '#e4f5f2') {
+    const msgDiv = document.getElementById('bookingMessage');
+    if(msgDiv) {
+      msgDiv.style.display = 'block';
+      msgDiv.style.backgroundColor = bgColor || '#e4f5f2';
+      msgDiv.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+      setTimeout(() => {
+        msgDiv.style.display = 'none';
+      }, 4000);
+    }
+  }
+
+  // proses pemesanan tiket
+  function processBooking() {
+    const name = document.getElementById('passengerName')?.value.trim();
+    const contact = document.getElementById('contact')?.value.trim();
+    const tripSelect = document.getElementById('tripSelect');
+    const selectedOption = tripSelect.options[tripSelect.selectedIndex];
+    const qty = parseInt(document.getElementById('ticketQty')?.value || '1');
+
+    if(!name || name === "") {
+      showTempAlert('❌ Harap masukkan nama lengkap Anda.', '#ffe1de');
+      return;
+    }
+    if(!contact || contact === "") {
+      showTempAlert('📞 Harap masukkan email atau nomor HP untuk konfirmasi.', '#ffe1de');
+      return;
+    }
+    if(!tripSelect.value || tripSelect.value === "" || (selectedOption && selectedOption.textContent.includes('Tidak ada jadwal'))) {
+      showTempAlert('⚠️ Silakan pilih jadwal kapal yang tersedia.', '#fff0db');
+      return;
+    }
+    if(isNaN(qty) || qty < 1) {
+      showTempAlert('Jumlah tiket minimal 1.', '#ffe1de');
+      return;
+    }
+
+    const selectedShipId = parseInt(tripSelect.value);
+    const shipData = schedules.find(s => s.id === selectedShipId);
+    if(!shipData || !shipData.available) {
+      showTempAlert('🚫 Jadwal kapal yang dipilih tidak tersedia, silakan pilih jadwal lain.', '#ffded5');
+      return;
+    }
+
+    // Generate kode booking unik
+    const bookingCode = "TRP" + Math.floor(Math.random() * 1000000) + new Date().getTime().toString().slice(-4);
+    const totalPrice = (parseInt(shipData.price.replace(/\D/g,'')) || 200000) * qty;
+    const formattedTotal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalPrice);
+    
+    let messageDetail = `✅ <strong>Pemesanan Berhasil!</strong><br>
+    Nama: ${name}<br>
+    Kontak: ${contact}<br>
+    Kapal: ${shipData.name} (${shipData.type})<br>
+    Rute: ${shipData.route} | Keberangkatan: ${shipData.departure} WIB<br>
+    Jumlah Tiket: ${qty} penumpang<br>
+    Total Bayar: ${formattedTotal}<br>
+    Kode Booking: ${bookingCode}<br>
+    Terima kasih telah menggunakan LautLink. Tiket akan dikirim via email/WhatsApp dalam 5 menit.`;
+
+    const msgDiv = document.getElementById('bookingMessage');
+    if(msgDiv) {
+      msgDiv.style.display = 'block';
+      msgDiv.style.backgroundColor = '#d4f5e6';
+      msgDiv.innerHTML = `<i class="fas fa-receipt"></i> ${messageDetail}`;
+      // reset form setelah sukses (opsional)
+      document.getElementById('passengerName').value = '';
+      document.getElementById('contact').value = '';
+      document.getElementById('ticketQty').value = '1';
+      // refresh dropdown tetap sama
+      setTimeout(() => {
+        msgDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    } else {
+      alert(`Pemesanan Berhasil!\n${messageDetail.replace(/<br>/g,'\n')}`);
+    }
+  }
+
+  // inisialisasi tambahan: fitur search atau filter untuk demo tetap
+  function init() {
+    renderSchedule();
+    populateTripSelect();
+    const bookBtn = document.getElementById('bookTicketBtn');
+    if(bookBtn) bookBtn.addEventListener('click', processBooking);
+    // Tambahan detail interaktif: jam keberangkatan dan pelabuhan 
+    console.log("Sistem Pelayanan Pelayaran Aktif - jadwal & pemesanan");
+  }
+
+  window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
